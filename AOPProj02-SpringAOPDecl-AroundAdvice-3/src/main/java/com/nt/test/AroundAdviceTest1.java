@@ -1,0 +1,38 @@
+package com.nt.test;
+
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.AbstractApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import com.nt.service.IBankService;
+
+public class AroundAdviceTest1 {
+
+	public static void main(String[] args) {
+		ApplicationContext ctx=null;
+		IBankService proxy=null;
+		
+		//create IOC container
+		ctx=new ClassPathXmlApplicationContext("com/nt/cfgs/applicationContext.xml");
+		//call getBean(-) to Proxy class object
+		proxy=ctx.getBean("pfb",IBankService.class);
+		try {
+		  System.out.println("1Simple Intrest Amount::"+proxy.calcSimpleIntrestAmount(100000,2,12));
+		  System.out.println("-----------------------------------------------");
+		  System.out.println("2Simple Intrest Amount::"+proxy.calcSimpleIntrestAmount(40000, 2,12));
+		  System.out.println("======================================================");
+		  System.out.println("1compound Intrest amount::"+proxy.calcCompoundIntrestAmount(100000, 2,12));
+		  System.out.println("-----------------------------------");
+		  System.out.println("2compound Intrest amount::"+proxy.calcCompoundIntrestAmount(40000, 2,12));
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		//close container
+		((AbstractApplicationContext) ctx).close();
+
+	}//method
+
+}//class
